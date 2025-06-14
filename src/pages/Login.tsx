@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { Button } from "antd";
-import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/features/hooks";
 import { setUser, TUser } from "../redux/features/auth/authSlice";
@@ -19,7 +18,6 @@ type TLogin = {
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm<TLogin>();
   const [login, { data }] = useLoginMutation();
   console.log(data);
   const onSubmit: SubmitHandler<TLogin> = async (data) => {
@@ -29,15 +27,15 @@ const Login = () => {
       password: data.password,
     };
     console.log(authInfo);
-    // try {
-    //   const res = await login(authInfo).unwrap();
-    //   const user = verifyToken(res.data.accesstoken) as TUser;
-    //   dispatch(setUser({ user: user, token: res.data.accesstoken }));
-    //   navigate(`/${user.role}/dashboard`);
-    //   toast.success("Logging in", { id: toastId, duration: 2000 });
-    // } catch (err) {
-    //   toast.error("Something went wrong!", { id: toastId, duration: 2000 });
-    // }
+    try {
+      const res = await login(authInfo).unwrap();
+      const user = verifyToken(res.data.accesstoken) as TUser;
+      dispatch(setUser({ user: user, token: res.data.accesstoken }));
+      navigate(`/${user.role}/dashboard`);
+      toast.success("Logging in", { id: toastId, duration: 2000 });
+    } catch (err) {
+      toast.error("Something went wrong!", { id: toastId, duration: 2000 });
+    }
   };
   return (
     <UNForm onSubmit={onSubmit}>
@@ -50,12 +48,8 @@ const Login = () => {
         }}
       >
         <div>
-          <div style={{ marginBottom: "10px" }}>
-            <UNInput type="text" name="id" label="ID"></UNInput>
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <UNInput type="text" name="password" label="Password"></UNInput>
-          </div>
+          <UNInput type="text" name="id" label="ID"></UNInput>
+          <UNInput type="text" name="password" label="Password"></UNInput>
           <Button htmlType="submit">Login</Button>
         </div>
       </div>

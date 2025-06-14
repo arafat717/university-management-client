@@ -1,13 +1,22 @@
+import { Input } from "antd";
 import React from "react";
-import { useFormContext } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
-const UNInput = ({ type, name, label }) => {
-  const { register } = useFormContext();
+type TInputProps = {
+  type: string;
+  name: string;
+  label?: string;
+};
+
+const UNInput = ({ type, name, label }: TInputProps) => {
   return (
-    <>
+    <div style={{ marginBottom: "10px" }}>
       {label ? label : null}
-      <input type={type} id={name} {...register(name)}></input>
-    </>
+      <Controller
+        name={name}
+        render={({ field }) => <Input type={type} id={name} {...field}></Input>}
+      />
+    </div>
   );
 };
 
