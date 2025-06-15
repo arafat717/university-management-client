@@ -14,7 +14,7 @@ const UNInput = ({ type, name, label }: TInputProps) => {
         name={name}
         render={({ field }) => (
           <Form.Item label={label}>
-            <Input type={type} id={name} {...field}></Input>
+            <Input type={type} id={name} {...field} size="large"></Input>
           </Form.Item>
         )}
       />
