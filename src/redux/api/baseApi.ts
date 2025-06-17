@@ -31,7 +31,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   DefinitionType
 > = async (args, api, extraOptions): Promise<any> => {
   let result = await baseQuery(args, api, extraOptions);
-  console.log(result);
   if (result?.error?.status === 401) {
     const res = await fetch(`http://localhost:5000/api/v1/auth/refresh-token`, {
       method: "POST",

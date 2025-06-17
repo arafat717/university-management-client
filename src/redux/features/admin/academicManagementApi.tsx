@@ -1,3 +1,5 @@
+import { TAcademicSemester } from "../../../types/AcademicSemester";
+import { TResponseRedux } from "../../../types/global";
 import { baseApi } from "../../api/baseApi";
 
 const AcademicManagementApi = baseApi.injectEndpoints({
@@ -7,6 +9,13 @@ const AcademicManagementApi = baseApi.injectEndpoints({
         url: "/academic-semester",
         method: "GET",
       }),
+      transformResponse: (response: TResponseRedux<TAcademicSemester[]>) => {
+        console.log(response);
+        return {
+          data: response.data,
+          meta: response.data,
+        };
+      },
     }),
     addAcademicSemester: builder.mutation({
       query: (data) => ({
