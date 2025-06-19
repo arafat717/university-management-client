@@ -10,35 +10,13 @@ import {
   useGetAllSemestersQuery,
 } from "../../../redux/features/admin/academicManagementApi";
 import { useAddStudentMutation } from "../../../redux/features/admin/userManagementApi";
-
-const studentDummydata = {
-  name: {
-    firstName: "jibon",
-    middleName: "A.",
-    lastName: "joni",
-  },
-  bloodGroup: "O+",
-  gender: "male",
-
-  email: "arafat.doe@example.com",
-  contactNo: "0171131323",
-  emergencyContactNo: "018878888442",
-  presentAddress: "123/A North Street, Dhaka",
-  permanentAddress: "456/B South Village, Chittagong",
-
-  gurdian: {
-    fatherName: "Michael Doe",
-    fatherOccupation: "Engineer",
-    fatherContactNo: "01999999999",
-    motherName: "Sarah Doe",
-    motherOccupation: "Teacher",
-    motherContactNo: "01722222222",
-  },
-};
+import { zodResolver } from "@hookform/resolvers/zod";
+import { StudentValidationSchema } from "../../../Schemas/userManagementSchema/studentSchema";
+import { toast } from "sonner";
+import { TError } from "../../../types/global";
 
 const CreateStudent = () => {
-  const [addStudent, { data, error }] = useAddStudentMutation();
-  console.log({ data, error });
+  const [addStudent] = useAddStudentMutation();
   const { data: semesterData, isLoading: sIsLoading } =
     useGetAllSemestersQuery(undefined);
   const { data: departmentData, isLoading: dIsLoading } =
@@ -62,14 +40,26 @@ const CreateStudent = () => {
     const formData = new FormData();
     formData.append("data", JSON.stringify(studentdata));
     formData.append("file", data?.image);
-    const res = await addStudent(formData);
-    console.log(res);
+    try {
+      const res = (await addStudent(formData)) as TError;
+      if (res?.error) {
+        toast.error(res?.error?.data?.message);
+        console.log(res?.error?.data?.message);
+      } else {
+        toast.success("Student Created Successfuly!");
+      }
+    } catch (err) {
+      toast.error("Something Went Wrong!");
+    }
   };
 
   return (
     <Row>
       <Col span={24}>
-        <UNForm onSubmit={handleSubmit} defaultValues={studentDummydata}>
+        <UNForm
+          onSubmit={handleSubmit}
+          resolver={zodResolver(StudentValidationSchema)}
+        >
           <Row gutter={8}>
             <Divider>Personal Info</Divider>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>

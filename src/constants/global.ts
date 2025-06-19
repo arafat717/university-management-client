@@ -20,7 +20,7 @@ export const monthOptions = months.map((item) => ({
 
 const bloodGroups = ["A+", "A−", "B+", "B−", "AB+", "AB−", "O+", "O−"];
 
-const genders = ["Male", "Female"];
+const genders = ["male", "female"];
 
 export const genderOptions = genders.map((item) => ({
   value: item,

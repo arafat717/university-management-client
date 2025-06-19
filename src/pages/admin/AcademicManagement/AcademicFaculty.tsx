@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useGetAllacademicFacultyQuery } from "../../../redux/features/admin/academicManagementApi";
 
-import { TAcademicFaculty } from "../../../types/AcademicFaculty";
 import { Button, Table, TableColumnsType, TableProps } from "antd";
 import { TQeryParams } from "../../../types/global";
+import { TAcademicFaculty } from "../../../types/AcademicManagement";
 
 export type TTableData = Pick<TAcademicFaculty, "name">;
 
