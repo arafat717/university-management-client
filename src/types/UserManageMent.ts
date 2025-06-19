@@ -5,6 +5,7 @@ import {
 } from "./AcademicManagement";
 
 export interface TStudent {
+  [x: string]: any;
   _id: string;
   user: string;
   name: Name;
