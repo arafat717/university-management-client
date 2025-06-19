@@ -1,15 +1,28 @@
-import { Button, Space, Table, TableColumnsType, TableProps } from "antd";
+import {
+  Button,
+  Pagination,
+  Space,
+  Table,
+  TableColumnsType,
+  TableProps,
+} from "antd";
 import { useState } from "react";
 import { TQeryParams } from "../../../types/global";
 import { useGetAllStudentQuery } from "../../../redux/features/admin/userManagementApi";
 import { TStudent } from "../../../types/UserManageMent";
+import { Link } from "react-router-dom";
 
 export type TTableData = Pick<TStudent, "fullName" | "id">;
 
 const StudentData = () => {
-  const [params, setParams] = useState<TQeryParams[] | undefined>(undefined);
-  const { data: semesterData, isFetching } = useGetAllStudentQuery(params);
-  console.log(semesterData?.data);
+  const [params, setParams] = useState<TQeryParams[]>([]);
+  const [page, setPage] = useState(1);
+  const { data: semesterData, isFetching } = useGetAllStudentQuery([
+    { name: "page", value: page },
+    { name: "sort", value: "id" },
+    ...params,
+  ]);
+  const metaData = semesterData?.meta;
   const tableData = semesterData?.data?.map(({ _id, fullName, id }) => ({
     key: _id,
     fullName,
@@ -27,15 +40,18 @@ const StudentData = () => {
     },
     {
       title: "Action",
-      render: () => {
+      render: (item) => {
         return (
           <Space>
-            <Button>Update</Button>
+            <Link to={`/admin/student/${item?.key}`}>
+              <Button>Details</Button>
+            </Link>
             <Button>Delete</Button>
             <Button>Block</Button>
           </Space>
         );
       },
+      width: "1%",
     },
   ];
 
@@ -57,13 +73,23 @@ const StudentData = () => {
     }
   };
   return (
-    <Table<TTableData>
-      loading={isFetching}
-      columns={columns}
-      dataSource={tableData}
-      onChange={onChange}
-      showSorterTooltip={{ target: "sorter-icon" }}
-    />
+    <>
+      <Table<TTableData>
+        loading={isFetching}
+        columns={columns}
+        dataSource={tableData}
+        onChange={onChange}
+        showSorterTooltip={{ target: "sorter-icon" }}
+        pagination={false}
+      />
+      <Pagination
+        style={{ marginTop: "25px" }}
+        current={page}
+        onChange={(value) => setPage(value)}
+        pageSize={metaData?.limit}
+        total={metaData?.total}
+      ></Pagination>
+    </>
   );
 };
 
