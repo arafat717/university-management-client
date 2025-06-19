@@ -1,7 +1,7 @@
-import { Button, Col, Divider, Row } from "antd";
+import { Button, Col, Divider, Form, Input, Row } from "antd";
 import UNForm from "../../../components/form/UNForm";
 import UNInput from "../../../components/form/UNInput";
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import UNSelect from "../../../components/form/UNSelect";
 import { bloodGroupOptions, genderOptions } from "../../../constants/global";
 import UNDatePicker from "../../../components/form/UNDatePicker";
@@ -52,15 +52,18 @@ const CreateStudent = () => {
     label: `${item.name}`,
   }));
 
-  const handleSubmit: SubmitHandler<FieldValues> = (data) => {
+  const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
+    // console.log(data.image);
+
     const studentdata = {
       password: "student123",
       student: data,
     };
     const formData = new FormData();
     formData.append("data", JSON.stringify(studentdata));
-    console.log(Object.fromEntries(formData));
-    addStudent(formData);
+    formData.append("file", data?.image);
+    const res = await addStudent(formData);
+    console.log(res);
   };
 
   return (
@@ -111,6 +114,21 @@ const CreateStudent = () => {
                 name="gender"
                 label="Gender"
               ></UNSelect>
+            </Col>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <Controller
+                name="image"
+                render={({ field: { onChange, value, ...field } }) => (
+                  <Form.Item label="Picture">
+                    <Input
+                      type="file"
+                      value={value?.fileName}
+                      {...field}
+                      onChange={(e) => onChange(e.target.files?.[0])}
+                    ></Input>
+                  </Form.Item>
+                )}
+              />
             </Col>
             <Divider>Contact Info</Divider>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
