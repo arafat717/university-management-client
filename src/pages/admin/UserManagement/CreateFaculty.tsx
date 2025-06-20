@@ -54,18 +54,18 @@ const CreateFaculty = () => {
     const formData = new FormData();
     formData.append("data", JSON.stringify(facultyData));
     formData.append("file", data?.image);
-    console.log(...formData.entries());
-    // try {
-    //   const res = (await addFaculty(formData)) as TError;
-    //   if (res?.error) {
-    //     toast.error(res?.error?.data?.message);
-    //     console.log(res?.error?.data?.message);
-    //   } else {
-    //     toast.success("Student Created Successfuly!");
-    //   }
-    // } catch (err) {
-    //   toast.error("Something Went Wrong!");
-    // }
+    console.log(Object.fromEntries(formData));
+    try {
+      const res = (await addFaculty(formData)) as TError;
+      if (res?.error) {
+        toast.error(res?.error?.data?.message);
+        console.log(res?.error?.data?.message);
+      } else {
+        toast.success("Faculty Created Successfuly!");
+      }
+    } catch (err) {
+      toast.error("Something Went Wrong!");
+    }
   };
 
   return (
@@ -138,13 +138,15 @@ const CreateFaculty = () => {
                       type="file"
                       value={value?.fileName}
                       {...field}
-                      onChange={(e) => onChange(e.target.files?.[0])}
-                    ></Input>
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        onChange(file);
+                      }}
+                    />
                   </Form.Item>
                 )}
               />
             </Col>
-
             <Divider>Contact Info</Divider>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
               <UNInput type="text" name="email" label="Email"></UNInput>
@@ -178,6 +180,7 @@ const CreateFaculty = () => {
               ></UNInput>
             </Col>
           </Row>
+
           <Divider>Academic Info</Divider>
           <Row gutter={8}>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>

@@ -31,8 +31,6 @@ const CreateStudent = () => {
   }));
 
   const handleSubmit: SubmitHandler<FieldValues> = async (data) => {
-    // console.log(data.image);
-
     const studentdata = {
       password: "student123",
       student: data,

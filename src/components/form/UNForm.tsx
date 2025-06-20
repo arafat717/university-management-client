@@ -34,9 +34,9 @@ const UNForm = ({
 
   const methods = useForm(formConfig);
 
-  const submit: SubmitHandler<FieldValues> = (data) => {
-    onSubmit(data);
-    methods.reset();
+  const submit: SubmitHandler<FieldValues> = async (data) => {
+    await onSubmit(data); // Wait for file processing to complete
+    methods.reset(); // Now safe to reset the form
   };
 
   return (
