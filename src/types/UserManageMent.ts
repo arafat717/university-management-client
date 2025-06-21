@@ -46,3 +46,47 @@ export interface Gurdian {
   motherContactNo: string;
   _id: string;
 }
+
+export interface TFacylty {
+  [x: string]: any;
+  _id: string;
+  id: string;
+  user: string;
+  designation: string;
+  name: Name;
+  gender: string;
+  dateOfBirth: string;
+  email: string;
+  contactNo: string;
+  emergencyContactNo: string;
+  bloogGroup: string;
+  presentAddress: string;
+  permanentAddress: string;
+  profileImage: string;
+  academicDepartment: TAcademicDepartment;
+  academicFaculty: string;
+  isDeleted: boolean;
+  __v: number;
+  fullName: string;
+}
+
+export interface TAdmin {
+  [x: string]: any;
+  _id: string;
+  id: string;
+  user: string;
+  designation: string;
+  name: Name;
+  gender: string;
+  dateOfBirth: string;
+  email: string;
+  contactNo: string;
+  emergencyContactNo: string;
+  bloogGroup: string;
+  presentAddress: string;
+  permanentAddress: string;
+  profileImage: string;
+  isDeleted: boolean;
+  __v: number;
+  fullName: string;
+}
