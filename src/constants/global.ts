@@ -21,6 +21,7 @@ export const monthOptions = months.map((item) => ({
 const bloodGroups = ["A+", "A−", "B+", "B−", "AB+", "AB−", "O+", "O−"];
 
 const genders = ["male", "female"];
+const status = ["UPCOMING", "ONGOING", "ENDED"];
 
 export const genderOptions = genders.map((item) => ({
   value: item,
@@ -28,6 +29,11 @@ export const genderOptions = genders.map((item) => ({
 }));
 
 export const bloodGroupOptions = bloodGroups.map((item) => ({
+  value: item,
+  label: item,
+}));
+
+export const statusOptions = status.map((item) => ({
   value: item,
   label: item,
 }));

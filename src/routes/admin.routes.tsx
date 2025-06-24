@@ -5,6 +5,12 @@ import CreateAcademicDepartment from "../pages/admin/AcademicManagement/CreateAc
 import CreateAcademicFaculty from "../pages/admin/AcademicManagement/CreateAcademicFaculty";
 import CreateAcademicSemester from "../pages/admin/AcademicManagement/CreateAcademicSemester";
 import AdminDashboard from "../pages/admin/AdminDashboard";
+import Course from "../pages/admin/CourseManagement/Course";
+import CreateCourse from "../pages/admin/CourseManagement/CreateCourse";
+import CreateOfferedCourse from "../pages/admin/CourseManagement/CreateOfferedCourse";
+import CreateSemesterRegistration from "../pages/admin/CourseManagement/CreateSemesterRegistration";
+import OfferedCourse from "../pages/admin/CourseManagement/OfferedCourse";
+import SemsesterRegisteration from "../pages/admin/CourseManagement/SemsesterRegisteration";
 import AdminData from "../pages/admin/UserManagement/AdminData";
 import AdminDetails from "../pages/admin/UserManagement/AdminDetails";
 import CreateAdmin from "../pages/admin/UserManagement/CreateAdmin";
@@ -100,6 +106,41 @@ export const adminPath = [
       {
         path: "admin/:adminId",
         element: <AdminDetails></AdminDetails>,
+      },
+    ],
+  },
+  {
+    name: "Course-Management",
+    children: [
+      {
+        name: "Create S.Registration",
+        path: "create-semester-registration",
+        element: <CreateSemesterRegistration></CreateSemesterRegistration>,
+      },
+      {
+        name: "Semester Registration",
+        path: "semester-registration",
+        element: <SemsesterRegisteration></SemsesterRegisteration>,
+      },
+      {
+        name: "Create-Course",
+        path: "create-course",
+        element: <CreateCourse></CreateCourse>,
+      },
+      {
+        name: "Course",
+        path: "course",
+        element: <Course></Course>,
+      },
+      {
+        name: "Create O.Course",
+        path: "create-offered-course",
+        element: <CreateOfferedCourse></CreateOfferedCourse>,
+      },
+      {
+        name: "Offered Course",
+        path: "Offered-ourse",
+        element: <OfferedCourse></OfferedCourse>,
       },
     ],
   },

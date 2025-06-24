@@ -28,6 +28,7 @@ const UNForm = ({
   if (defaultValues) {
     formConfig["defaultValues"] = defaultValues;
   }
+
   if (resolver) {
     formConfig["resolver"] = resolver;
   }
@@ -35,8 +36,8 @@ const UNForm = ({
   const methods = useForm(formConfig);
 
   const submit: SubmitHandler<FieldValues> = async (data) => {
-    await onSubmit(data); // Wait for file processing to complete
-    methods.reset(); // Now safe to reset the form
+    await onSubmit(data);
+    methods.reset();
   };
 
   return (
