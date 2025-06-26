@@ -3,17 +3,15 @@ import UNForm from "../../../components/form/UNForm";
 import { Button, Col, Flex } from "antd";
 import UNSelect from "../../../components/form/UNSelect";
 import { statusOptions } from "../../../constants/global";
-import {
-  useAddAcademicSemesterMutation,
-  useGetAllSemestersQuery,
-} from "../../../redux/features/admin/academicManagementApi";
+import { useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagementApi";
 import { toast } from "sonner";
 import { TError } from "../../../types/global";
 import UNDatePicker from "../../../components/form/UNDatePicker";
 import UNInput from "../../../components/form/UNInput";
+import { useAddSemesterRegistrationMutation } from "../../../redux/features/admin/courseManagementApi";
 
 const CreateSemesterRegistration = () => {
-  const [addSemesterRegistration] = useAddAcademicSemesterMutation();
+  const [addSemesterRegistration] = useAddSemesterRegistrationMutation();
   const { data: semesterData, isLoading: sIsLoading } =
     useGetAllSemestersQuery(undefined);
 
@@ -61,7 +59,7 @@ const CreateSemesterRegistration = () => {
             options={statusOptions}
           ></UNSelect>
           <UNDatePicker name="startDate" label="Start Date"></UNDatePicker>
-          <UNDatePicker name="endtDate" label="End Date"></UNDatePicker>
+          <UNDatePicker name="endDate" label="End Date"></UNDatePicker>
           <UNInput type="text" name="minCredit" label="Min Credit"></UNInput>
           <UNInput type="text" name="maxCredit" label="Max Credit"></UNInput>
           <Button htmlType="submit">Submit</Button>
