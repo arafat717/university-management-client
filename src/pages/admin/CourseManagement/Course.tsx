@@ -8,7 +8,10 @@ import {
 } from "antd";
 import { useState } from "react";
 import { TQeryParams } from "../../../types/global";
-import { useGetAllCoursesQuery } from "../../../redux/features/admin/courseManagementApi";
+import {
+  useAddFacultiesMutation,
+  useGetAllCoursesQuery,
+} from "../../../redux/features/admin/courseManagementApi";
 import { TCourse } from "../../../types/CourseManagement";
 import UNForm from "../../../components/form/UNForm";
 import { FieldValues, SubmitHandler } from "react-hook-form";
@@ -46,7 +49,7 @@ const Course = () => {
     {
       title: "Action",
       render: (item) => {
-        return <FacultyModal data={item}></FacultyModal>;
+        return <FacultyModal facultyInfo={item}></FacultyModal>;
       },
     },
   ];
@@ -89,20 +92,22 @@ const Course = () => {
   );
 };
 
-const FacultyModal = ({ data }) => {
+const FacultyModal = ({ facultyInfo }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(data.key);
-
-  const { data: facultyData, isLoading: sIsLoading } =
-    useGetAllFacultyQuery(undefined);
-
+  const [addFaculties] = useAddFacultiesMutation();
+  const { data: facultyData } = useGetAllFacultyQuery(undefined);
   const facutlyOptions = facultyData?.data?.map((item) => ({
     value: item._id,
     label: `${item.fullName}`,
   }));
 
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+    const facultyData = {
+      id: facultyInfo.key,
+      data,
+    };
+    addFaculties(facultyData);
+    setIsModalOpen(false);
   };
 
   const showModal = () => {
@@ -121,14 +126,14 @@ const FacultyModal = ({ data }) => {
         closable={{ "aria-label": "Custom Close Button" }}
         open={isModalOpen}
         onCancel={handleCancel}
+        footer={null}
       >
         <UNForm onSubmit={handleSubmit}>
           <UNSelect
-            disabled={sIsLoading}
-            options={facutlyOptions}
-            label="Select Faculty"
-            name="faculties"
             mode="multiple"
+            label="Select Faculties"
+            name="faculties"
+            options={facutlyOptions}
           ></UNSelect>
           <Button htmlType="submit">Submit</Button>
         </UNForm>
