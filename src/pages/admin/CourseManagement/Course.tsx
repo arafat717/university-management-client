@@ -18,6 +18,12 @@ import { FieldValues, SubmitHandler } from "react-hook-form";
 import UNSelect from "../../../components/form/UNSelect";
 import { useGetAllFacultyQuery } from "../../../redux/features/admin/userManagementApi";
 
+type modalType = {
+  code: number;
+  key: string;
+  title: string;
+};
+
 export type TTableData = Pick<TCourse, "title" | "code">;
 
 const Course = () => {
@@ -92,7 +98,8 @@ const Course = () => {
   );
 };
 
-const FacultyModal = ({ facultyInfo }) => {
+const FacultyModal = ({ facultyInfo }: { facultyInfo: modalType }) => {
+  console.log(facultyInfo);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [addFaculties] = useAddFacultiesMutation();
   const { data: facultyData } = useGetAllFacultyQuery(undefined);

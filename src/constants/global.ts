@@ -13,7 +13,14 @@ export const months = [
   "December",
 ];
 
+const weekdays = ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
+
 export const monthOptions = months.map((item) => ({
+  value: item,
+  label: item,
+}));
+
+export const weekdaysOptions = weekdays.map((item) => ({
   value: item,
   label: item,
 }));

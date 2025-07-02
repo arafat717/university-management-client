@@ -37,7 +37,7 @@ const items = [
   },
 ];
 
-const StudentData = () => {
+const SemesterRegistration = () => {
   const [semesterId, setSemesterId] = useState("");
   const [params, setParams] = useState<TQeryParams[]>([]);
   const [page, setPage] = useState(1);
@@ -155,4 +155,4 @@ const StudentData = () => {
   );
 };
 
-export default StudentData;
+export default SemesterRegistration;
