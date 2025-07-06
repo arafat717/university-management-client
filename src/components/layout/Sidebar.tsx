@@ -4,10 +4,15 @@ import { adminPath } from "../../routes/admin.routes";
 import { facultyPath } from "../../routes/faculty.routes";
 import { studentPath } from "../../routes/student.route";
 import { useAppSelector } from "../../redux/features/hooks";
-import { useCurrentUser } from "../../redux/features/auth/authSlice";
+import { TUser, useCurrentToken } from "../../redux/features/auth/authSlice";
+import { verifyToken } from "../../utils/verifyToken";
 const { Sider } = Layout;
 const Sidebar = () => {
-  const user = useAppSelector(useCurrentUser);
+  const token = useAppSelector(useCurrentToken);
+  let user;
+  if (token) {
+    user = verifyToken(token);
+  }
   const userRole = {
     ADMIN: "admin",
     FACULTY: "faculty",
@@ -16,7 +21,7 @@ const Sidebar = () => {
 
   let sideBarItems;
 
-  switch (user?.role) {
+  switch ((user as TUser)?.role) {
     case userRole.ADMIN:
       sideBarItems = sidebarGenarator(adminPath, userRole.ADMIN);
       break;
@@ -34,12 +39,6 @@ const Sidebar = () => {
     <Sider
       breakpoint="lg"
       collapsedWidth="0"
-      // onBreakpoint={(broken) => {
-      //   console.log(broken);
-      // }}
-      // onCollapse={(collapsed, type) => {
-      //   console.log(collapsed, type);
-      // }}
       style={{ height: "100vh", position: "sticky", top: "0", left: "0" }}
     >
       <div

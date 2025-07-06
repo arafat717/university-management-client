@@ -18,21 +18,24 @@ type TLogin = {
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [login, { data }] = useLoginMutation();
-  console.log(data);
+  const [login] = useLoginMutation();
   const onSubmit: SubmitHandler<TLogin> = async (data) => {
     const toastId = toast.loading("Logging in");
     const authInfo = {
       id: data.id,
       password: data.password,
     };
-    console.log(authInfo);
     try {
       const res = await login(authInfo).unwrap();
+
       const user = verifyToken(res.data.accesstoken) as TUser;
       dispatch(setUser({ user: user, token: res.data.accesstoken }));
-      navigate(`/${user.role}/dashboard`);
       toast.success("Logging in", { id: toastId, duration: 2000 });
+      if (res?.data?.needsPasswordChange) {
+        navigate("/password-change");
+      } else {
+        navigate(`/${user.role}/dashboard`);
+      }
     } catch (err) {
       toast.error("Something went wrong!", { id: toastId, duration: 2000 });
     }
